@@ -1,0 +1,42 @@
+version: '3'
+services:
+  mail:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+  postgres:
+    image: postgres
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - "5442:5432"
+    environment:
+      - POSTGRES_DB=keycloak
+      - POSTGRES_USER=keycloak
+      - POSTGRES_PASSWORD=keycloak
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+  keycloak:
+    # wizzn for mac m1
+    #    image: wizzn/keycloak:14
+    image: jboss/keycloak:15.0.1
+    ports:
+      - "8090:8080"
+    environment:
+      - DB_VENDOR=postgres
+      - DB_ADDR=postgres
+      - DB_DATABASE=keycloak
+      - DB_USER=keycloak
+      - DB_PASSWORD=keycloak
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=par0la
+    command:
+      - "-b 0.0.0.0"
+      - "-Dkeycloak.import=/opt/jboss/keycloak/imports/gateway.json"
+    volumes:
+      - ./imports:/opt/jboss/keycloak/imports
+    depends_on:
+      - postgres

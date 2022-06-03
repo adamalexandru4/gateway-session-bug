@@ -1,0 +1,78 @@
+{
+  "realm": "backoffice",
+  "enabled": true,
+  "sslRequired": "external",
+  "registrationAllowed": false,
+  "registrationEmailAsUsername": true,
+  "rememberMe": true,
+  "verifyEmail": true,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": true,
+  "loginTheme": "sun",
+  "emailTheme": "sun",
+  "bruteForceProtected": true,
+  "permanentLockout": false,
+  "maxFailureWaitSeconds": 900,
+  "minimumQuickLoginWaitSeconds": 60,
+  "waitIncrementSeconds": 1800,
+  "quickLoginCheckMilliSeconds": 1000,
+  "maxDeltaTimeSeconds": 43200,
+  "failureFactor": 30,
+  "requiredCredentials": [
+    "password"
+  ],
+  "passwordPolicy": "passwordHistory(3) and forceExpiredPasswordChange(120)",
+  "smtpServer": {
+    "port": "1025",
+    "host": "mail",
+    "from": "test@adam.ro",
+    "starttls": "",
+    "auth": "",
+    "ssl": ""
+  },
+  "clients": [
+    {
+      "clientId": "gateway",
+      "enabled": true,
+      "publicClient": false,
+      "fullScopeAllowed": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "8f73df24-f245-45c6-95fd-b1094c671183",
+      "redirectUris": [
+        "http://localhost:8085/*"
+      ],
+      "defaultClientScopes": [
+        "web-origins",
+        "profile",
+        "roles",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    }
+  ],
+  "users": [
+    {
+      "id": "05095071-4bcb-4927-b9f3-54418e0f1583",
+      "username": "superadmin",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "superadmin@example",
+      "firstName": "Utilizator",
+      "lastName": "Superadmin",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "par0la"
+        }
+      ],
+      "requiredActions": []
+    }
+  ]
+}

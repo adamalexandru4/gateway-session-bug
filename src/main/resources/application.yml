@@ -1,0 +1,54 @@
+server:
+  port: 8085
+  url: http://localhost:8085
+  error:
+    whitelabel:
+      enabled: false
+  forward-headers-strategy: framework
+
+
+logging:
+  pattern:
+    level: '%clr(%5p) %clr([TraceId=%X{traceId:-},SpanId=%X{spanId:-}]){green}'
+
+spring:
+  application:
+    name: bo-gateway
+  session:
+    timeout: 120
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8090/auth/realms/backoffice
+        registration:
+          keycloak-client:
+            provider: keycloak
+            scope: openid
+            client-id: gateway
+            client-secret: 8f73df24-f245-45c6-95fd-b1094c671183
+            authorization-grant-type: authorization_code
+  cloud:
+    gateway:
+      default-filters:
+        - TokenRelay
+      routes:
+        - id: identity-and-access-management-api
+          uri: ${IAM_API_URL:http://localhost:8083}
+          predicates:
+            - Path=/iam/**
+        - id: frontend
+          uri: ${FRONTEND_URL:http://localhost:4211}
+          predicates:
+            - Path=/**
+  redis:
+    client-type: lettuce
+    lettuce:
+      pool:
+        min-idle: 8
+        max-idle: 16
+        max-active: 32
+  sleuth:
+    reactor:
+      instrumentation-type: decorate_on_each
